@@ -54,14 +54,14 @@
             <div class="row mb-3">
                 <label for="discount_method" class="col-sm-2 col-form-label">優惠方式</label>
                 <div class="form-check col-auto">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="discount_method" id="discount_cash" value="discount_cash">
+                    <label class="form-check-label" for="discount_cash">
                         現金折抵
                     </label>
                 </div>
                 <div class="form-check col-auto">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" name="discount_method" id="discount_pa" value="discount_pa" checked>
+                    <label class="form-check-label" for="discount_pa">
                         折扣
                     </label>
                 </div>
@@ -72,10 +72,24 @@
                     <input type="number" class="form-control" id="discount" name="discount" required>
                 </div>
             </div>
+            <!-- <div class="row mb-3">
+                <label for="discount" class="col-sm-2 col-form-label">優惠額數</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="discount" name="discount" required>
+                        <span class="input-group-text">折</span>
+                    </div>
+                </div>
+            </div> -->
             <button class="btn btn-info" type="submit">送出</button>
         </form>
     </div>
-    
+</div>
+
+
+    <script>
+        
+    </script>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
