@@ -1,7 +1,7 @@
 <?php
-require_once("../db_connect.php");
+require_once("coupon-db-connect.php");
 
-$sqlTotal = "SELECT * FROM users WHERE  valid=1";
+$sqlTotal = "SELECT * FROM coupon";
 $resultTotal=$conn->query($sqlTotal);
 $totalUser=$resultTotal->num_rows;
 $perPage=4;
@@ -67,9 +67,9 @@ $result = $conn->query($sql);
           <a class="btn btn-info text-white" href="user-list.php" title="回使用者列表"><i class="bi bi-arrow-left"></i></a>
           搜尋<?= $_GET["search"] ?>的結果,
           <?php endif;
-          ?>共 <?= $totalUser ?> 人
+          ?>共 <?= $totalUser ?> 筆
       </div>
-      <a class="btn btn-info text-white" href="add-user.php" title="增加使用者"><i class="bi bi-person-fill-add"></i></a>
+      <a class="btn btn-info text-white" href="add-coupon.php" title="增加優惠券"><i class="bi bi-person-fill-add"></i></a>
     </div>
     <div class="py-2">
       <form action="">
@@ -99,22 +99,33 @@ $result = $conn->query($sql);
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th></th>
+            <th>ID</th>
+            <th>優惠券名稱</th>
+            <th>優惠碼</th>
+            <th>可使用人數</th>
+            <th>以使用人數</th>
+            <th>折扣金額</th>
+            <th>可使用時間</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($rows as $row) : ?>
             <tr>
-              <td><?= $row["id"] ?></td>
-              <td><?= $row["name"] ?></td>
-              <td><?= $row["email"] ?></td>
-              <td><?= $row["phone"] ?></td>
+              <td><?= $row["coupon_id"] ?></td>
+              <td><?= $row["coupon_name"] ?></td>
+              <td><?= $row["code"] ?></td>
+              <td><?= $row["max_count"] ?></td>
+              <td><?= $row["used_count"] ?></td>
               <td>
-                <a class="btn btn-info text-white" href="user.php?id=<?= $row["id"] ?>" title="詳細資料"><i class="bi bi-info-circle-fill"></i></a>
+                <?php if(isset($row["discount_pa"])) : ?>
+                  <?= $row["discount_pa"] ?>折
+                <?php else if(isset($row["discount_cash"])) : ?>
+                  <?= $row["discount_cash"] ?>NTD
+                  <?php endif; ?>
+              </td>
+              <td><?= $row["start"] ?> ~ <?= $row["end"] ?></td>
+              <td>
+                <a class="btn btn-info text-white" href="coupon.php?id=<?= $row["id"] ?>" title="詳細資料"><i class="bi bi-info-circle-fill"></i></a>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -129,7 +140,7 @@ $result = $conn->query($sql);
             <?php for($i=1; $i<=$pageCount; $i++): ?>
             <li class="page-item <?php
             if($page==$i)echo "active";
-            ?>"><a class="page-link" href="user-list.php?page=<?=$i?>&order=<?=$order?>"><?=$i?></a></li>
+            ?>"><a class="page-link" href="coupon-list.php?page=<?=$i?>&order=<?=$order?>"><?=$i?></a></li>
             <?php endfor; ?>
             <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
           </ul>
@@ -137,7 +148,7 @@ $result = $conn->query($sql);
       </div>
       <?php endif; ?>
     <?php else : ?>
-      目前無使用者
+      目前無優惠券
     <?php endif; ?>
   </div>
 
