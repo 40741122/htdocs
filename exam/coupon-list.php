@@ -8,35 +8,34 @@ $perPage=4;
 //無條件進位相除結果, 計算出總頁數
 $pageCount=ceil($totalUser/$perPage);
 
-
 if (isset($_GET["search"])) {
   $search = $_GET["search"];
-  $sql = "SELECT * FROM users WHERE name LIKE '%$search%' AND valid=1";
+  $sql = "SELECT * FROM coupon WHERE coupon_name LIKE '%$search%'";
 } else if(isset($_GET["page"]) && isset($_GET["order"])) {
   $page=$_GET["page"];
   $order=$_GET["order"];
   switch($order){
     case 1:
-      $orderSql="id ASC";
+      $orderSql="coupon_id ASC";
       break;
     case 2:
-      $orderSql="id DESC";
+      $orderSql="coupon_id DESC";
       break;
     case 3:
-        $orderSql="name ASC";
+        $orderSql="coupon_name ASC";
         break;
     case 4:
-        $orderSql="name DESC";
+        $orderSql="coupon_name DESC";
         break;
   }
 
   $startItem=($page-1)*$perPage;
 
-  $sql = "SELECT * FROM users WHERE valid=1 ORDER BY $orderSql LIMIT $startItem,$perPage";
+  $sql = "SELECT * FROM coupon ORDER BY $orderSql LIMIT $startItem,$perPage";
 }else{
   $order=1;
   $page=1;
-  $sql = "SELECT * FROM users WHERE valid=1 ORDER BY id ASC LIMIT 0,$perPage";
+  $sql = "SELECT * FROM coupon ORDER BY coupon_id ASC LIMIT 0,$perPage";
 }
 
 $result = $conn->query($sql);
@@ -46,7 +45,7 @@ $result = $conn->query($sql);
 <html lang="en">
 
 <head>
-  <title>User List</title>
+  <title>Coupon List</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -58,13 +57,13 @@ $result = $conn->query($sql);
 <body>
   <div class="container">
     <?php
-    $userCount = $result->num_rows;
+    $couponCount = $result->num_rows;
     ?>
     <div class="py-2 d-flex justify-content-between align-items-center">
       <div><?php
             if (isset($_GET["search"])) :
             ?>
-          <a class="btn btn-info text-white" href="user-list.php" title="回使用者列表"><i class="bi bi-arrow-left"></i></a>
+          <a class="btn btn-info text-white" href="coupon-list.php" title="回優惠券列表"><i class="bi bi-arrow-left"></i></a>
           搜尋<?= $_GET["search"] ?>的結果,
           <?php endif;
           ?>共 <?= $totalUser ?> 筆
@@ -82,10 +81,10 @@ $result = $conn->query($sql);
     <?php if(!isset($_GET["search"])) : ?>
     <div class="pb-2 d-flex justify-content-end">
       <div class="btn-group">
-        <a class="btn btn-info text-white <?php if($order==1) echo "active"?>" href="user-list.php?page=<?=$page?>&order=1">id <i class="bi bi-sort-down-alt"></i></a>
-        <a class="btn btn-info text-white <?php if($order==2) echo "active"?>" href="user-list.php?page=<?=$page?>&order=2">id <i class="bi bi-sort-down"></i></a>
-        <a class="btn btn-info text-white <?php if($order==3) echo "active"?>" href="user-list.php?page=<?=$page?>&order=3">name <i class="bi bi-sort-down-alt"></i></a>
-        <a class="btn btn-info text-white <?php if($order==4) echo "active"?>" href="user-list.php?page=<?=$page?>&order=4">name<i class="bi bi-sort-down"></i></a>
+        <a class="btn btn-info text-white <?php if($order==1) echo "active"?>" href="coupon-list.php?page=<?=$page?>&order=1">id <i class="bi bi-sort-down-alt"></i></a>
+        <a class="btn btn-info text-white <?php if($order==2) echo "active"?>" href="coupon-list.php?page=<?=$page?>&order=2">id <i class="bi bi-sort-down"></i></a>
+        <a class="btn btn-info text-white <?php if($order==3) echo "active"?>" href="coupon-list.php?page=<?=$page?>&order=3">name <i class="bi bi-sort-down-alt"></i></a>
+        <a class="btn btn-info text-white <?php if($order==4) echo "active"?>" href="coupon-list.php?page=<?=$page?>&order=4">name<i class="bi bi-sort-down"></i></a>
       </div>
     </div>
     <?php endif; ?>
@@ -95,7 +94,7 @@ $result = $conn->query($sql);
       // var_dump($rows);
       ?>
     </div>
-    <?php if ($userCount > 0) : ?>
+    <?php if ($couponCount > 0) : ?>
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -119,13 +118,13 @@ $result = $conn->query($sql);
               <td>
                 <?php if(isset($row["discount_pa"])) : ?>
                   <?= $row["discount_pa"] ?>折
-                <?php else if(isset($row["discount_cash"])) : ?>
+                <?php elseif(isset($row["discount_cash"])) : ?>
                   <?= $row["discount_cash"] ?>NTD
                   <?php endif; ?>
               </td>
               <td><?= $row["start"] ?> ~ <?= $row["end"] ?></td>
               <td>
-                <a class="btn btn-info text-white" href="coupon.php?id=<?= $row["id"] ?>" title="詳細資料"><i class="bi bi-info-circle-fill"></i></a>
+                <a class="btn btn-info text-white" href="coupon.php?id=<?= $row["coupon_id"] ?>" title="詳細資料"><i class="bi bi-info-circle-fill"></i></a>
               </td>
             </tr>
           <?php endforeach; ?>

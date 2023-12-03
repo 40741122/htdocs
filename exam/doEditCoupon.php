@@ -1,12 +1,12 @@
 <?php
 require_once("coupon-db-connect.php");
 
-if(!isset($_POST["name"])){
+if(!isset($_POST["coupon_name"])){
     echo "請循正常管道進入此頁";
     exit;
 }
 
-$id=$_POST["id"];
+$id=$_POST["coupon_id"];
 $name=$_POST["coupon_name"];
 $code=$_POST["code"];
 $max_count=$_POST["max_count"];
@@ -16,9 +16,9 @@ $start=$_POST["start"];
 $end=$_POST["end"];
 
 if($discount_method == "discount_cash"){
-    $sql="UPDATE coupon SET coupon_name='$name', code='$code', max_count='$max_count', discount_cash='$discount', discount_pa='', start='$start', end='$end' , WHERE coupon_id=$id";
+    $sql="UPDATE coupon SET coupon_name='$name', code='$code', max_count='$max_count', discount_cash='$discount', discount_pa=NULL, start='$start', end='$end' WHERE coupon_id=$id";
 }else{
-    $sql="UPDATE coupon SET coupon_name='$name', code='$code', max_count='$max_count', discount_cash='', discount_pa='discount', start='$start', end='$end' , WHERE coupon_id=$id";
+    $sql="UPDATE coupon SET coupon_name='$name', code='$code', max_count='$max_count', discount_cash=NULL, discount_pa='$discount', start='$start', end='$end' WHERE coupon_id=$id";
 }
 
 if($conn->query($sql) === TRUE){

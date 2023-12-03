@@ -8,19 +8,23 @@ require_once("coupon-db-connect.php");
 // }
 
 $coupon_name=$_POST["coupon_name"];
-$coupon_code=$_POST["coupon_code"];
+$code=$_POST["code"];
 $max_count=$_POST["max_count"];
 $discount_method=$_POST["discount_method"];
 $discount=$_POST["discount"];
 $start=$_POST["start"];
 $end=$_POST["end"];
 
+
+var_dump($start);
+var_dump($end);
+
 if($discount_method == "discount_cash"){
     $sql = "INSERT INTO coupon (coupon_name, code, max_count, discount_cash, start, end)
-    VALUES ('$coupon_name', '$coupon_code', '$max_count', '$discount', $start, $end)";
+    VALUES ('$coupon_name', '$code', '$max_count', '$discount', '$start', '$end')";
 }else{
     $sql = "INSERT INTO coupon (coupon_name, code, max_count, discount_pa, start, end)
-    VALUES ('$coupon_name', '$coupon_code', '$max_count', '$discount', $start, $end)";
+    VALUES ('$coupon_name', '$code', '$max_count', '$discount', '$start', '$end')";
 }
 
 
@@ -39,4 +43,4 @@ if ($conn->query($sql) === TRUE) {
 
 $conn->close();
 
-header("location: user-list.php");
+// header("location: coupon-list.php");

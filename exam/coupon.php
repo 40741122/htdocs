@@ -6,7 +6,7 @@ if(!isset($_GET["id"])){
 $id=$_GET["id"];
 
 require_once("coupon-db-connect.php");
-$sql="SELECT * FROM coupon where id=$id";
+$sql="SELECT * FROM coupon where coupon_id=$id";
 
 $result=$conn->query(($sql));
 $couponCount = $result->num_rows;
@@ -62,20 +62,18 @@ $row=$result->fetch_assoc();
             <tr>
                 <th>折扣金額</th>
                 <td>
-                    <?php if(isset($row["discount_pa"])) : ?>
-                        <?= $row["discount_pa"] ?>折
-                    <?php else if(isset($row["discount_cash"])) : ?>
-                        <?= $row["discount_cash"] ?>NTD
+                    <?php if(isset($row["discount_pa"])) : ?><?= $row["discount_pa"] ?>折
+                    <?php elseif(isset($row["discount_cash"])) : ?><?= $row["discount_cash"] ?>NTD
                     <?php endif; ?>   
                 </td>
             </tr>
             <tr>
                 <th>可使用時間</th>
-                <td><?= $row["start"] ?> ~ <?= $row["end"] ?>/td>
+                <td><?= $row["start"] ?> ~ <?= $row["end"] ?></td>
             </tr>
         </table>
         <div class="py-2">
-            <a class="btn btn-info text-white" href="coupon-edit.php?id=<?=$row["id"]?>" title="修改資料">
+            <a class="btn btn-info text-white" href="coupon-edit.php?id=<?=$row["coupon_id"]?>" title="修改資料" >
                 <i class="bi bi-pencil-fill"></i>
             </a>
         </div>

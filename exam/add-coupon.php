@@ -28,9 +28,9 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="coupon_code" class="col-sm-2 col-form-label">優惠券號碼</label>
+                <label for="code" class="col-sm-2 col-form-label">優惠券號碼</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="coupon_code" name="coupon_code" required>
+                    <input type="text" class="form-control" id="code" name="code" required>
                 </div>
             </div>
             <div class="row mb-3">

@@ -8,7 +8,7 @@ if(!isset($_GET["id"])){
 
 $id=$_GET["id"];
 
-$sql="UPDATE coupon SET valid='0' WHERE id=$id";
+$sql="UPDATE coupon SET valid='0' WHERE coupon_id=$id";
 
 if($conn->query($sql) === TRUE){
     echo "刪除成功";
