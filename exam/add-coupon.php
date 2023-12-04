@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -21,56 +25,65 @@
             </a>
         </div>
         <form action="doAddCoupon.php" method="post">
-            <div class="row mb-3">
-                <label for="coupon_name" class="col-sm-2 col-form-label">優惠券名稱</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="coupon_name" name="coupon_name" required>
+            <div class="mb-3">
+                <label for="coupon_name" class="form-label">優惠券名稱</label>
+                <input type="text" class="form-control" id="coupon_name" name="coupon_name" value="<?php if(isset($_SESSION["coupon_name"])) :?><?=$_SESSION["coupon_name"]?><?php endif; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="code" class="form-label">優惠券號碼</label>
+                <input type="text" class="form-control" id="code" name="code" value="<?php if(isset($_SESSION["code"])) :?><?=$_SESSION["code"]?><?php endif; ?>" required>
+            </div>
+            <?php if(isset($_SESSION["error_code"]["message"])) :?> 
+                <div class="mt-2 text-danger">
+                    <?=$_SESSION["error_code"]["message"]?>
+                </div>
+            <?php endif; ?>
+            <div class="mb-3">
+                <label for="max_count" class="form-label">可使用人數</label>
+                <input type="number" class="form-control" id="max_count" name="max_count" value="<?php if(isset($_SESSION["max_count"])) :?><?=$_SESSION["max_count"]?><?php endif; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">使用期間</label>
+                <div class="d-flex align-items-center">
+                    <div class="col-auto">
+                        <input type="date" class="form-control" name="start" value="<?php if(isset($_SESSION["start"])):?><?=$_SESSION["start"]?><?php endif; ?>">
+                    </div>
+                    <div class="col-auto">
+                        ～
+                    </div>
+                    <div class="col-auto">
+                        <input type="date" class="form-control" name="end" value="<?php if(isset($_SESSION["end"])) :?><?=$_SESSION["end"]?><?php endif; ?>">
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="code" class="col-sm-2 col-form-label">優惠券號碼</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="code" name="code" required>
+            <?php if(isset($_SESSION["error_date"]["message"])) :?> 
+                <div class="mt-2 text-danger">
+                    <?=$_SESSION["error_date"]["message"]?>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="max_count" class="col-sm-2 col-form-label">可使用人數</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="max_count" name="max_count" required>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label for="date" class="col-sm-2 col-form-label">使用期間</label>
-                <div class="col-auto">
-                    <input type="date" class="form-control" name="start">
-                </div>
-                <div class="col-auto">
-                    to
-                </div>
-                <div class="col-auto">
-                    <input type="date" class="form-control" name="end">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label for="discount_method" class="col-sm-2 col-form-label">優惠方式</label>
+            <?php endif; ?>
+            <div class="mb-3">
+                <label for="discount_method" class="form-label">優惠方式</label>
                 <div class="form-check col-auto">
-                    <input class="form-check-input" type="radio" name="discount_method" id="discount_cash" value="discount_cash">
+                    <input class="form-check-input" type="radio" name="discount_method" id="discount_cash" value="discount_cash" <?php if((isset($_SESSION["discount_method"]) && $_SESSION["discount_method"] == "discount_cash")) :?>checked<?php endif; ?>>
                     <label class="form-check-label" for="discount_cash">
                         現金折抵
                     </label>
                 </div>
                 <div class="form-check col-auto">
-                    <input class="form-check-input" type="radio" name="discount_method" id="discount_pa" value="discount_pa" checked>
+                    <input class="form-check-input" type="radio" name="discount_method" id="discount_pa" value="discount_pa" <?php  if((isset($_SESSION["discount_method"]) && $_SESSION["discount_method"] == "discount_pa")) :?>checked<?php endif; ?>>
                     <label class="form-check-label" for="discount_pa">
                         折扣
                     </label>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="discount" class="col-sm-2 col-form-label">優惠額數</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="discount" name="discount" required>
+            <?php if(isset($_SESSION["error_method"]["message"])) :?> 
+                <div class="mt-2 text-danger">
+                    <?=$_SESSION["error_method"]["message"]?>
                 </div>
+            <?php endif; ?>
+            <div class="mb-3">
+                <label for="discount" class="form-label">優惠額數</label>
+                <input type="number" class="form-control" id="discount" name="discount" value="<?php if(isset($_SESSION["discount"])) :?><?=$_SESSION["discount"]?><?php endif; ?>" required>
             </div>
             <!-- <div class="row mb-3">
                 <label for="discount" class="col-sm-2 col-form-label">優惠額數</label>
@@ -85,7 +98,11 @@
         </form>
     </div>
 </div>
-
+<?php
+unset($_SESSION["error_code"]["message"]);
+unset($_SESSION["error_date"]["message"]);
+unset($_SESSION["error_method"]["message"]);
+?>
 
     <script>
         

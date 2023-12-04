@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if(!isset($_GET["id"])){
     header("location: coupon-list.php");
 }
@@ -64,32 +66,37 @@ $row=$result->fetch_assoc();
                 <tr>
                     <th>優惠券名稱</th>
                     <td>
-                        <input type="text" class="form-control" name="coupon_name" value="<?=$row["coupon_name"]?>">
+                        <input type="text" class="form-control" name="coupon_name" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["coupon_name"]?><?php else : ?><?=$row["coupon_name"]?><?php endif; ?>">
                     </td>
                 </tr>
                 <tr>
                     <th>優惠碼</th>
                     <td>
-                        <input type="text" class="form-control" name="code" value="<?=$row["code"]?>">
+                        <input type="text" class="form-control" name="code" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["code"]?><?php else :?><?=$row["code"]?><?php endif; ?>">
+                        <?php if(isset($_SESSION["error"]["message_code"])) :?> 
+                            <div class="mt-2 text-danger">
+                                <?=$_SESSION["error"]["message_code"]?>
+                            </div>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <tr>
                     <th>可使用人數</th>
                     <td>
-                        <input type="number" class="form-control" name="max_count" value="<?=$row["max_count"]?>">
+                        <input type="number" class="form-control" name="max_count" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["max_count"]?><?php else : ?><?=$row["max_count"]?><?php endif; ?>">
                     </td>
                 </tr>
                 <tr>
                     <th>折扣方式</th>
                     <td>
                         <div class="form-check col-auto">
-                            <input class="form-check-input" type="radio" name="discount_method" id="discount_cash" value="discount_cash">
+                            <input class="form-check-input" type="radio" name="discount_method" id="discount_cash" value="discount_cash" <?php if(isset($row["discount_cash"])) :?>checked<?php endif; ?>>
                             <label class="form-check-label" for="discount_cash">
                                 現金折抵
                             </label>
                         </div>
                         <div class="form-check col-auto">
-                            <input class="form-check-input" type="radio" name="discount_method" id="discount_pa" value="discount_pa" checked>
+                            <input class="form-check-input" type="radio" name="discount_method" id="discount_pa" value="discount_pa" <?php if(isset($row["discount_pa"])) :?>checked<?php endif; ?>>
                             <label class="form-check-label" for="discount_pa">
                                 折扣
                             </label>
@@ -99,22 +106,26 @@ $row=$result->fetch_assoc();
                 <tr>
                     <th>折扣額數</th>
                     <td>
-                        <input type="tel" class="form-control" name="discount" value="<?php if(isset($row["discount_pa"])) : ?><?=$row["discount_pa"]?>
-                        <?php elseif(isset($row["discount_cash"])) : ?><?=$row["discount_cash"]?><?php endif; ?>">
+                        <input type="tel" class="form-control" name="discount" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["discount"]?><?php elseif(isset($row["discount_pa"])) : ?><?=$row["discount_pa"]?><?php elseif(isset($row["discount_cash"])) : ?><?=$row["discount_cash"]?><?php endif; ?>">
                     </td>
                 </tr>
                 <tr>
                     <th>使用期間</th>
                     <td>
                         <div class="col-auto">
-                            <input type="date" class="form-control" name="start" value="<?=$row["start"]?>">
+                            <input type="date" class="form-control" name="start" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["start"]?><?php else :?><?=$row["start"]?><?php endif; ?>">
                         </div>
                         <div class="col-auto">
                             to
                         </div>
                         <div class="col-auto">
-                            <input type="date" class="form-control" name="end" value="<?=$row["end"]?>">
+                            <input type="date" class="form-control" name="end" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["end"]?><?php else :?><?=$row["end"]?><?php endif; ?>">
                         </div>
+                        <?php if(isset($_SESSION["error"]["message_date"])) :?> 
+                            <div class="mt-2 text-danger">
+                                <?=$_SESSION["error"]["message_date"]?>
+                            </div>
+                        <?php endif; ?>
                     </td>
                 </tr>
             </table>
@@ -139,6 +150,9 @@ $row=$result->fetch_assoc();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
+    <?php
+        unset($_SESSION["error"]);
+    ?>
 </body>
 
 </html>

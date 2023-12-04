@@ -1,7 +1,7 @@
 <?php
 require_once("coupon-db-connect.php");
 
-$sqlTotal = "SELECT * FROM coupon";
+$sqlTotal = "SELECT * FROM coupon WHERE valid=1";
 $resultTotal=$conn->query($sqlTotal);
 $totalUser=$resultTotal->num_rows;
 $perPage=4;
@@ -10,7 +10,7 @@ $pageCount=ceil($totalUser/$perPage);
 
 if (isset($_GET["search"])) {
   $search = $_GET["search"];
-  $sql = "SELECT * FROM coupon WHERE coupon_name LIKE '%$search%'";
+  $sql = "SELECT * FROM coupon WHERE coupon_name LIKE '%$search%' AND valid=1";
 } else if(isset($_GET["page"]) && isset($_GET["order"])) {
   $page=$_GET["page"];
   $order=$_GET["order"];
@@ -31,11 +31,11 @@ if (isset($_GET["search"])) {
 
   $startItem=($page-1)*$perPage;
 
-  $sql = "SELECT * FROM coupon ORDER BY $orderSql LIMIT $startItem,$perPage";
+  $sql = "SELECT * FROM coupon WHERE valid=1 ORDER BY $orderSql LIMIT $startItem,$perPage";
 }else{
   $order=1;
   $page=1;
-  $sql = "SELECT * FROM coupon ORDER BY coupon_id ASC LIMIT 0,$perPage";
+  $sql = "SELECT * FROM coupon WHERE valid=1 ORDER BY coupon_id ASC LIMIT 0,$perPage";
 }
 
 $result = $conn->query($sql);
