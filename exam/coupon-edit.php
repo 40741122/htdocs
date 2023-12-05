@@ -104,9 +104,13 @@ $row=$result->fetch_assoc();
                     </td>
                 </tr>
                 <tr>
+                    <?php 
+                    $a = isset($_SESSION["error"]);
+                    $b = isset($row["discount_pa"]);
+                    ?>
                     <th>折扣額數</th>
                     <td>
-                        <input type="tel" class="form-control" name="discount" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["discount"]?><?php elseif(isset($row["discount_pa"])) : ?><?=$row["discount_pa"]?><?php elseif(isset($row["discount_cash"])) : ?><?=$row["discount_cash"]?><?php endif; ?>">
+                        <input type="number" class="form-control" name="discount" value="<?php echo ($a ? $_SESSION["discount"] : ($b ? $row["discount_pa"] : $row["discount_cash"])) ?>" >
                     </td>
                 </tr>
                 <tr>
