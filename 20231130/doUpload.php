@@ -5,7 +5,13 @@ $title=$_POST["title"];
 $time=date('Y-m-d H:i:s');
 // echo $name;
 
-// var_dump($_FILES["file"]);
+echo "<br>";
+var_dump($_FILES["file"]);
+echo "<br>";
+echo "<br>";
+
+
+
 
 if($_FILES["file"]["error"]==0){
     if(move_uploaded_file($_FILES["file"]["tmp_name"], "../upload/".$_FILES["file"]["name"])){
@@ -23,7 +29,7 @@ if($_FILES["file"]["error"]==0){
                 echo "移除資料錯誤: " . $conn->error;
         }
 
-        header("location: file-up.php");
+        // header("location: file-up.php");
 
     }else{
         echo "上傳失敗";
