@@ -23,18 +23,21 @@ $result = $conn->query($sql);
   ?>
 
     <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <!-- <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script> -->
+    <script defer src="dataTables.js"></script>
     <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-
-    <!-- <script defer src="dataTables.js"></script> -->
     <script defer src="script.js"></script>
+    
 
 
 </head>
 
 <body>
   <div class="container">
-    <?php
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-10">
+      <?php
     $couponCount = $result->num_rows;
     ?>
     <div class="py-2 d-flex justify-content-between align-items-center">
@@ -92,6 +95,9 @@ $result = $conn->query($sql);
     <?php else : ?>
       目前無優惠券
     <?php endif; ?>
+      </div>
+    </div>
+
   </div>
 
   <!-- Bootstrap JavaScript Libraries -->
@@ -100,10 +106,7 @@ $result = $conn->query($sql);
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
-  <script>
-    let users = <?php echo json_encode($rows) ?>;
-    // console.log(users);
-  </script>
+
 </body>
 
 </html>

@@ -70,7 +70,7 @@
                 repassword: repasswordValue
             }
 
-            // console.log(data);
+            console.log(data);
             $.ajax({
                     method: "POST", //or GET
                     url: "/api/sign-up.php",
