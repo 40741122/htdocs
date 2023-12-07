@@ -31,7 +31,7 @@
             </div>
             <div class="mb-3">
                 <label for="code" class="form-label">優惠券號碼</label>
-                <input type="text" pattern="/S*" class="form-control" id="code" name="code" value="<?php if(isset($_SESSION["code"])) :?><?=$_SESSION["code"]?><?php endif; ?>" required>
+                <input type="text" pattern="\S*" class="form-control" id="code" name="code" value="<?php if(isset($_SESSION["code"])) :?><?=$_SESSION["code"]?><?php endif; ?>" required>
             </div>
             <?php if(isset($_SESSION["error_code"]["message"])) :?> 
                 <div class="mt-2 text-danger">

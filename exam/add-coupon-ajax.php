@@ -103,6 +103,7 @@
 
         send.addEventListener("click", function() {
             console.log("click");
+            console.log(name);
             let nameValue = name.value;
             let codeValue = code.value;
             let startValue = start.value;

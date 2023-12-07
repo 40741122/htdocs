@@ -72,7 +72,7 @@ $row=$result->fetch_assoc();
                 <tr>
                     <th>優惠碼</th>
                     <td>
-                        <input type="text" pattern="/S*" class="form-control" name="code" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["code"]?><?php else :?><?=$row["code"]?><?php endif; ?>">
+                        <input type="text" pattern="\S*" class="form-control" name="code" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["code"]?><?php else :?><?=$row["code"]?><?php endif; ?>">
                         <?php if(isset($_SESSION["error"]["message_code"])) :?> 
                             <div class="mt-2 text-danger">
                                 <?=$_SESSION["error"]["message_code"]?>

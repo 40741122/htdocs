@@ -61,23 +61,23 @@ $row=$result->fetch_assoc();
             <h1>優惠券不存在</h1>
         <?php else: ?>
             <table class="table table-bordered">
-                <input type="hidden" name="id" value="<?=$row["id"]?>">
+                <input type="hidden" name="id" id="id" value="<?=$row["id"]?>">
                 <tr>
                     <th>優惠券名稱</th>
                     <td>
-                        <input type="text" class="form-control" name="name" value="<?=$row["name"]?>">
+                        <input type="text" class="form-control" name="name" id="name" value="<?=$row["name"]?>">
                     </td>
                 </tr>
                 <tr>
                     <th>優惠碼</th>
                     <td>
-                        <input type="text" pattern="\S*" class="form-control" name="code" value="<?=$row["code"]?>">
+                        <input type="text" pattern="\S*" class="form-control" name="code" id="code" value="<?=$row["code"]?>">
                     </td>
                 </tr>
                 <tr>
                     <th>可使用人數</th>
                     <td>
-                        <input type="number" class="form-control" name="max_count" value="<?=$row["max_count"]?>">
+                        <input type="number" class="form-control" name="max_count" id="max_count" value="<?=$row["max_count"]?>">
                     </td>
                 </tr>
                 <tr>
@@ -103,20 +103,20 @@ $row=$result->fetch_assoc();
                     ?>
                     <th>折扣額數</th>
                     <td>
-                        <input type="number" class="form-control" name="discount" value="<?php echo ($a ? $row["discount_pa"] : $row["discount_cash"]) ?>" >
+                        <input type="number" class="form-control" name="discount" id="discount" value="<?php echo ($a ? $row["discount_pa"] : $row["discount_cash"]) ?>" >
                     </td>
                 </tr>
                 <tr>
                     <th>使用期間</th>
                     <td>
                         <div class="col-auto">
-                            <input type="date" class="form-control" name="start" value="<?=$row["start"]?>">
+                            <input type="date" class="form-control" name="start" id="start" value="<?=$row["start"]?>">
                         </div>
                         <div class="col-auto">
                             to
                         </div>
                         <div class="col-auto">
-                            <input type="date" class="form-control" name="end" value="<?=$row["end"]?>">
+                            <input type="date" class="form-control" name="end" id="end" value="<?=$row["end"]?>">
                         </div>
                     </td>
                 </tr>
@@ -142,7 +142,6 @@ $row=$result->fetch_assoc();
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
 
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 
@@ -167,7 +166,6 @@ $row=$result->fetch_assoc();
                 let discountValue = discount.value;
                 let discountMethodValue = $("input[name=discount_method]:checked").val()
                 
-
                 let data = {
                     id: idValue,
                     name: nameValue,

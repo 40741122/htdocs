@@ -1,5 +1,5 @@
 <?php
-require_once("coupon-db-connect.php");
+require_once("../coupon-db-connect.php");
 
 if(!isset($_POST["name"])){
     echo "請循正常管道進入此頁";
@@ -23,6 +23,15 @@ $sqlGetCode="SELECT * FROM coupon where id=$id";
 $resultGetCode=$conn->query($sqlGetCode);
 $rowGetCode=$resultGetCode->fetch_assoc();
 
+if(empty($name) || empty($code) || empty($max_count) || empty($discount_method) ||empty($discount) || empty($start) || empty($end)){
+    $data=[
+        "status"=>0,
+        "message"=>"請輸入必填欄位"
+    ];
+    echo json_encode($data);
+    exit;
+}
+
 if($code!=$rowGetCode["code"] && $rowCount>0){
     $data=[
         "status"=>0,
@@ -36,15 +45,6 @@ if(strtotime($start) > strtotime($end)){
     $data=[
         "status"=>0,
         "message"=>"使用期間格式錯誤"
-    ];
-    echo json_encode($data);
-    exit;
-}
-
-if(empty($name) || empty($code) || empty($max_count) || empty($discount_method) ||empty($discount) || empty($start) || empty($end)){
-    $data=[
-        "status"=>0,
-        "message"=>"請輸入必填欄位"
     ];
     echo json_encode($data);
     exit;
