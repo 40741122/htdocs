@@ -26,8 +26,8 @@
         </div>
         <form action="doAddCoupon.php" method="post">
             <div class="mb-3">
-                <label for="coupon_name" class="form-label">優惠券名稱</label>
-                <input type="text" class="form-control" id="coupon_name" name="coupon_name" value="<?php if(isset($_SESSION["coupon_name"])) :?><?=$_SESSION["coupon_name"]?><?php endif; ?>" required>
+                <label for="name" class="form-label">優惠券名稱</label>
+                <input type="text" class="form-control" id="name" name="name" value="<?php if(isset($_SESSION["name"])) :?><?=$_SESSION["name"]?><?php endif; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="code" class="form-label">優惠券號碼</label>

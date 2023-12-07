@@ -4,8 +4,39 @@ require_once("coupon-db-connect.php");
 $sqlTotal = "SELECT * FROM coupon WHERE valid=1";
 $resultTotal=$conn->query($sqlTotal);
 $totalUser=$resultTotal->num_rows;
+$perPage=4;
+//無條件進位相除結果, 計算出總頁數
+$pageCount=ceil($totalUser/$perPage);
 
-  $sql = "SELECT * FROM coupon WHERE valid=1 ORDER BY coupon_id ASC";
+if (isset($_GET["search"])) {
+  $search = $_GET["search"];
+  $sql = "SELECT * FROM coupon WHERE coupon_name LIKE '%$search%' AND valid=1";
+} else if(isset($_GET["page"]) && isset($_GET["order"])) {
+  $page=$_GET["page"];
+  $order=$_GET["order"];
+  switch($order){
+    case 1:
+      $orderSql="coupon_id ASC";
+      break;
+    case 2:
+      $orderSql="coupon_id DESC";
+      break;
+    case 3:
+        $orderSql="coupon_name ASC";
+        break;
+    case 4:
+        $orderSql="coupon_name DESC";
+        break;
+  }
+
+  $startItem=($page-1)*$perPage;
+
+  $sql = "SELECT * FROM coupon WHERE valid=1 ORDER BY $orderSql LIMIT $startItem,$perPage";
+}else{
+  $order=1;
+  $page=1;
+  $sql = "SELECT * FROM coupon WHERE valid=1 ORDER BY coupon_id ASC LIMIT 0,$perPage";
+}
 
 $result = $conn->query($sql);
 
@@ -110,6 +141,19 @@ $result = $conn->query($sql);
         </tbody>
       </table>
       <?php if(!isset($_GET["search"])): ?>
+      <div class="py-2">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li> -->
+            <?php for($i=1; $i<=$pageCount; $i++): ?>
+            <li class="page-item <?php
+            if($page==$i)echo "active";
+            ?>"><a class="page-link" href="coupon-list.php?page=<?=$i?>&order=<?=$order?>"><?=$i?></a></li>
+            <?php endfor; ?>
+            <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+          </ul>
+        </nav>
+      </div>
       <?php endif; ?>
     <?php else : ?>
       目前無優惠券

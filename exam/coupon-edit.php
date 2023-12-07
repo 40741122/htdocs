@@ -8,7 +8,7 @@ if(!isset($_GET["id"])){
 $id=$_GET["id"];
 
 require_once("coupon-db-connect.php");
-$sql="SELECT * FROM coupon where coupon_id=$id";
+$sql="SELECT * FROM coupon where id=$id";
 
 $result=$conn->query(($sql));
 $couponCount = $result->num_rows;
@@ -45,7 +45,7 @@ $row=$result->fetch_assoc();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <a href="doDeleteCoupon.php?id=<?=$row["coupon_id"]?>" class="btn btn-danger">確認</a>
+                    <a href="doDeleteCoupon.php?id=<?=$row["id"]?>" class="btn btn-danger">確認</a>
                 </div>
             </div>
         </div>
@@ -62,11 +62,11 @@ $row=$result->fetch_assoc();
         <?php else: ?>
         <form action="doEditCoupon.php" method="post">
             <table class="table table-bordered">
-                <input type="hidden" name="coupon_id" value="<?=$row["coupon_id"]?>">
+                <input type="hidden" name="id" value="<?=$row["id"]?>">
                 <tr>
                     <th>優惠券名稱</th>
                     <td>
-                        <input type="text" class="form-control" name="coupon_name" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["coupon_name"]?><?php else : ?><?=$row["coupon_name"]?><?php endif; ?>">
+                        <input type="text" class="form-control" name="name" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["name"]?><?php else : ?><?=$row["name"]?><?php endif; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -136,7 +136,7 @@ $row=$result->fetch_assoc();
             <div class="py-2 d-flex justify-content-between">
                 <div>
                     <button class="btn btn-info text-white" type="submit">儲存</button>
-                    <a class="btn btn-info text-white" href="coupon.php?id=<?=$row["coupon_id"]?>">取消</a>
+                    <a class="btn btn-info text-white" href="coupon.php?id=<?=$row["id"]?>">取消</a>
                 </div>
                 <div>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#alertModal" class="btn btn-danger">刪除</button>

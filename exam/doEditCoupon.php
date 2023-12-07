@@ -2,13 +2,13 @@
 require_once("coupon-db-connect.php");
 session_start();
 
-if(!isset($_POST["coupon_name"])){
+if(!isset($_POST["name"])){
     echo "請循正常管道進入此頁";
     exit;
 }
 
-$id=$_POST["coupon_id"];
-$coupon_name=$_POST["coupon_name"];
+$id=$_POST["id"];
+$name=$_POST["name"];
 $code=$_POST["code"];
 $max_count=$_POST["max_count"];
 $discount_method=$_POST["discount_method"];
@@ -16,7 +16,7 @@ $discount=$_POST["discount"];
 $start=$_POST["start"];
 $end=$_POST["end"];
 
-$_SESSION["coupon_name"]=$coupon_name;
+$_SESSION["name"]=$name;
 $_SESSION["code"]=$code;
 $_SESSION["max_count"]=$max_count;
 $_SESSION["discount_method"]=$discount_method;
@@ -28,7 +28,7 @@ $sql="SELECT * FROM coupon WHERE code='$code'";
 $result = $conn->query($sql);
 $rowCount=$result->num_rows;
 
-$sqlGetCode="SELECT * FROM coupon where coupon_id=$id";
+$sqlGetCode="SELECT * FROM coupon where id=$id";
 $resultGetCode=$conn->query($sqlGetCode);
 $rowGetCode=$resultGetCode->fetch_assoc();
 
@@ -52,13 +52,13 @@ if( ($code!=$rowGetCode["code"] && $rowCount>0) || strtotime($start) > strtotime
 }
 
 if($discount_method == "discount_cash"){
-    $sql="UPDATE coupon SET coupon_name='$coupon_name', code='$code', max_count='$max_count', discount_cash='$discount', discount_pa=NULL, start='$start', end='$end' WHERE coupon_id=$id";
+    $sql="UPDATE coupon SET name='$name', code='$code', max_count='$max_count', discount_cash='$discount', discount_pa=NULL, start='$start', end='$end' WHERE id=$id";
 }else{
-    $sql="UPDATE coupon SET coupon_name='$coupon_name', code='$code', max_count='$max_count', discount_cash=NULL, discount_pa='$discount', start='$start', end='$end' WHERE coupon_id=$id";
+    $sql="UPDATE coupon SET name='$name', code='$code', max_count='$max_count', discount_cash=NULL, discount_pa='$discount', start='$start', end='$end' WHERE id=$id";
 }
 
 if($conn->query($sql) === TRUE){
-    unset($_SESSION["coupon_name"]);
+    unset($_SESSION["name"]);
     unset($_SESSION["code"]);
     unset($_SESSION["max_count"]);
     unset($_SESSION["discount_method"]);

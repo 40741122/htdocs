@@ -4,7 +4,7 @@ require_once("coupon-db-connect.php");
 $filename=$_FILES["file"]["name"];
 print_r($_FILES["file"]);
 
-$sql = "UPDATE coupon SET img='$filename' WHERE coupon_id = 1";
+$sql = "UPDATE coupon SET img='$filename' WHERE id = 1";
 
 
 if ($conn->query($sql) === TRUE) {

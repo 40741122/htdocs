@@ -8,7 +8,7 @@ session_start();
 //     die;
 // }
 
-$coupon_name=$_POST["coupon_name"];
+$name=$_POST["name"];
 $code=$_POST["code"];
 $max_count=$_POST["max_count"];
 $discount_method=$_POST["discount_method"];
@@ -16,7 +16,7 @@ $discount=$_POST["discount"];
 $start=$_POST["start"];
 $end=$_POST["end"];
 
-$_SESSION["coupon_name"]=$coupon_name;
+$_SESSION["name"]=$name;
 $_SESSION["code"]=$code;
 $_SESSION["max_count"]=$max_count;
 $_SESSION["discount_method"]=$discount_method;
@@ -46,11 +46,11 @@ if($rowCount>0 || strtotime($start) > strtotime($end) || !isset($discount_method
 }
 
 if($discount_method == "discount_cash"){
-    $sql = "INSERT INTO coupon (coupon_name, code, max_count, discount_cash, start, end, valid)
-    VALUES ('$coupon_name', '$code', '$max_count', '$discount', '$start', '$end', 1)";
+    $sql = "INSERT INTO coupon (name, code, max_count, discount_cash, start, end, valid)
+    VALUES ('$name', '$code', '$max_count', '$discount', '$start', '$end', 1)";
 }else{
-    $sql = "INSERT INTO coupon (coupon_name, code, max_count, discount_pa, start, end, valid)
-    VALUES ('$coupon_name', '$code', '$max_count', '$discount', '$start', '$end', 1)";
+    $sql = "INSERT INTO coupon (name, code, max_count, discount_pa, start, end, valid)
+    VALUES ('name', '$code', '$max_count', '$discount', '$start', '$end', 1)";
 }
 
 
@@ -60,7 +60,7 @@ if($discount_method == "discount_cash"){
 // }
  
 if ($conn->query($sql) === TRUE) {
-    unset($_SESSION["coupon_name"]);
+    unset($_SESSION["name"]);
     unset($_SESSION["code"]);
     unset($_SESSION["max_count"]);
     unset($_SESSION["discount_method"]);

@@ -6,7 +6,7 @@ if(!isset($_GET["id"])){
 $id=$_GET["id"];
 
 require_once("coupon-db-connect.php");
-$sql="SELECT * FROM coupon where coupon_id=$id";
+$sql="SELECT * FROM coupon where id=$id";
 
 $result=$conn->query(($sql));
 $couponCount = $result->num_rows;
@@ -41,11 +41,11 @@ $row=$result->fetch_assoc();
         <table class="table table-bordered">
             <tr>
                 <th>ID</th>
-                <td><?=$row["coupon_id"]?></td>
+                <td><?=$row["id"]?></td>
             </tr>
             <tr>
                 <th>優惠券名稱</th>
-                <td><?=$row["coupon_name"]?></td>
+                <td><?=$row["name"]?></td>
             </tr>
             <tr>
                 <th>優惠碼</th>
@@ -73,7 +73,7 @@ $row=$result->fetch_assoc();
             </tr>
         </table>
         <div class="py-2">
-            <a class="btn btn-info text-white" href="coupon-edit.php?id=<?=$row["coupon_id"]?>" title="修改資料" >
+            <a class="btn btn-info text-white" href="coupon-edit.php?id=<?=$row["id"]?>" title="修改資料" >
                 <i class="bi bi-pencil-fill"></i>
             </a>
         </div>
