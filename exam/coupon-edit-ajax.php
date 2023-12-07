@@ -60,30 +60,24 @@ $row=$result->fetch_assoc();
         <?php  if($couponCount == 0):?>
             <h1>優惠券不存在</h1>
         <?php else: ?>
-        <form action="doEditCoupon.php" method="post">
             <table class="table table-bordered">
-                <input type="hidden" name="id" value="<?=$row["id"]?>">
+                <input type="hidden" name="id" id="id" value="<?=$row["id"]?>">
                 <tr>
                     <th>優惠券名稱</th>
                     <td>
-                        <input type="text" class="form-control" name="name" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["name"]?><?php else : ?><?=$row["name"]?><?php endif; ?>">
+                        <input type="text" class="form-control" name="name" id="name" value="<?=$row["name"]?>">
                     </td>
                 </tr>
                 <tr>
                     <th>優惠碼</th>
                     <td>
-                        <input type="text" pattern="\S*" class="form-control" name="code" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["code"]?><?php else :?><?=$row["code"]?><?php endif; ?>">
-                        <?php if(isset($_SESSION["error"]["message_code"])) :?> 
-                            <div class="mt-2 text-danger">
-                                <?=$_SESSION["error"]["message_code"]?>
-                            </div>
-                        <?php endif; ?>
+                        <input type="text" pattern="\S*" class="form-control" name="code" id="code" value="<?=$row["code"]?>">
                     </td>
                 </tr>
                 <tr>
                     <th>可使用人數</th>
                     <td>
-                        <input type="number" class="form-control" name="max_count" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["max_count"]?><?php else : ?><?=$row["max_count"]?><?php endif; ?>">
+                        <input type="number" class="form-control" name="max_count" id="max_count" value="<?=$row["max_count"]?>">
                     </td>
                 </tr>
                 <tr>
@@ -105,44 +99,37 @@ $row=$result->fetch_assoc();
                 </tr>
                 <tr>
                     <?php 
-                    $a = isset($_SESSION["error"]);
-                    $b = isset($row["discount_pa"]);
+                    $a = isset($row["discount_pa"]);
                     ?>
                     <th>折扣額數</th>
                     <td>
-                        <input type="number" class="form-control" name="discount" value="<?php echo ($a ? $_SESSION["discount"] : ($b ? $row["discount_pa"] : $row["discount_cash"])) ?>" >
+                        <input type="number" class="form-control" name="discount" id="discount" value="<?php echo ($a ? $row["discount_pa"] : $row["discount_cash"]) ?>" >
                     </td>
                 </tr>
                 <tr>
                     <th>使用期間</th>
                     <td>
                         <div class="col-auto">
-                            <input type="date" class="form-control" name="start" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["start"]?><?php else :?><?=$row["start"]?><?php endif; ?>">
+                            <input type="date" class="form-control" name="start" id="start" value="<?=$row["start"]?>">
                         </div>
                         <div class="col-auto">
                             to
                         </div>
                         <div class="col-auto">
-                            <input type="date" class="form-control" name="end" value="<?php if(isset($_SESSION["error"])):?><?=$_SESSION["end"]?><?php else :?><?=$row["end"]?><?php endif; ?>">
+                            <input type="date" class="form-control" name="end" id="end" value="<?=$row["end"]?>">
                         </div>
-                        <?php if(isset($_SESSION["error"]["message_date"])) :?> 
-                            <div class="mt-2 text-danger">
-                                <?=$_SESSION["error"]["message_date"]?>
-                            </div>
-                        <?php endif; ?>
                     </td>
                 </tr>
             </table>
             <div class="py-2 d-flex justify-content-between">
                 <div>
-                    <button class="btn btn-info text-white" type="submit">儲存</button>
+                    <button class="btn btn-info text-white" id="send">儲存</button>
                     <a class="btn btn-info text-white" href="coupon.php?id=<?=$row["id"]?>">取消</a>
                 </div>
                 <div>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#alertModal" class="btn btn-danger">刪除</button>
                 </div>
             </div>
-        </form>
         <?php endif; ?>
     </div>
 
@@ -154,9 +141,65 @@ $row=$result->fetch_assoc();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
-    <?php
-        unset($_SESSION["error"]);
-    ?>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+
+    <script>
+            const send = document.querySelector("#send"),
+                id = document.querySelector("#id"),
+                name = document.querySelector("#name"),
+                code = document.querySelector("#code"),
+                start = document.querySelector("#start"),
+                end = document.querySelector("#end"),
+                max_count = document.querySelector("#max_count"),
+                discount = document.querySelector("#discount")
+
+            send.addEventListener("click", function() {
+                console.log("click");
+                let idValue = id.value;
+                let nameValue = name.value;
+                let codeValue = code.value;
+                let startValue = start.value;
+                let endValue = end.value;
+                let max_countValue = max_count.value;
+                let discountValue = discount.value;
+                let discountMethodValue = $("input[name=discount_method]:checked").val()
+                
+                let data = {
+                    id: idValue,
+                    name: nameValue,
+                    code: codeValue,
+                    start: startValue,
+                    end: endValue,
+                    max_count: max_countValue,
+                    discount: discountValue,
+                    discount_method: discountMethodValue
+                }
+
+                console.log(data);
+                $.ajax({
+                        method: "POST", //or GET
+                        url: "api/doEditCoupon.php",
+                        dataType: "json",
+                        data: data
+                    })
+                    .done(function(response) {
+                        // console.log(response);
+                        let status=response.status;
+                        if(status==0){
+                            alert(response.message);
+                        }else{
+                            alert(response.message);
+                        }
+
+                    }).fail(function(jqXHR, textStatus) {
+                        console.log("Request failed: " + textStatus);
+                    });
+
+            })
+        </script>
+
 </body>
 
 </html>
