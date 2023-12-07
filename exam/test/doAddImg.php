@@ -1,5 +1,5 @@
 <?php
-require_once("coupon-db-connect.php");
+require_once("../coupon-db-connect.php");
 
 $filename=$_FILES["file"]["name"];
 print_r($_FILES["file"]);
