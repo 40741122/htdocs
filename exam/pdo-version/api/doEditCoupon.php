@@ -12,17 +12,12 @@ $end=$_POST["end"];
 
 $stmt=$conn->prepare('SELECT * FROM `coupon` WHERE code =:code ');
 $stmt->execute([':code' => $code]);
-$rows=$stmt->fetchAll(PDO::FETCH_ASSOC);
+$row=$stmt->fetch(PDO::FETCH_ASSOC);
 $rowCount=$stmt->rowCount();
 
-$stmtGetCode=$conn->prepare('SELECT * FROM `coupon` WHERE code =:code ');
-$stmtGetCode->execute([':code' => $code]);
+$stmtGetCode=$conn->prepare('SELECT * FROM `coupon` WHERE id =:id ');
+$stmtGetCode->execute([':id' => $id]);
 $rowGetCode=$stmtGetCode->fetch(PDO::FETCH_ASSOC);
-
-var_dump($rowGetCode);
-echo "<br>";
-var_dump($discount_method);
-
 
 if(empty($name) || empty($code) || empty($max_count) || empty($discount_method) ||empty($discount) || empty($start) || empty($end)){
     $data=[
@@ -51,13 +46,13 @@ if(strtotime($start) > strtotime($end)){
     exit;
 }
 
+if($discount_method == "discount_cash"){
+    $sql = "UPDATE `coupon` SET name=:name, code=:code, max_count=:max_count, discount_cash=:discount, start=:start, end=:end, discount_pa=NULL WHERE id=$id";
+}else{
+    $sql = "UPDATE `coupon` SET name=:name, code=:code, max_count=:max_count, discount_pa=:discount, start=:start, end=:end, discount_cash=NULL WHERE id=$id";
+}
 
 try {
-    if($discount_method == "discount_cash"){
-        $sql = "UPDATE `coupon` SET (`name`, `code`, `max_count`, `discount_cash`, `start`, `end`, `valid`) VALUES (:name, :code, :max_count, :discount, :start, :end, 1)";
-    }else{
-        $sql = "UPDATE SET `coupon` (`name`, `code`, `max_count`, `discount_pa`, `start`, `end`, `valid`) VALUES (:name, :code, :max_count, :discount, :start, :end, 1)";
-    }
     $statement = $conn->prepare($sql); //資料先作暫存
     $statement->execute([':name' => $name, ':code' => $code, ':max_count' => $max_count, ':discount' => $discount, ':start' => $start, ':end' => $end]);
     $data=[

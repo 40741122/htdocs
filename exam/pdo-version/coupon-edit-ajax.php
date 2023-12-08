@@ -7,13 +7,12 @@ if(!isset($_GET["id"])){
 
 $id=$_GET["id"];
 
-require_once("coupon-db-connect.php");
-$sql="SELECT * FROM coupon where id=$id";
+require_once("pdo-connect.php");
 
-$result=$conn->query(($sql));
-$couponCount = $result->num_rows;
-
-$row=$result->fetch_assoc();
+$stmt=$conn->prepare('SELECT * FROM `coupon` WHERE id =:id ');
+$stmt->execute([':id' => $id]);
+$row=$stmt->fetch();
+$couponCount =$stmt->rowCount();
 
 ?>
 <!doctype html>

@@ -18,3 +18,5 @@ try {
     echo $sql . "<br>" . $e->getMessage();
   }
   $conn = null;
+
+  header("location: ../coupon-list.php");

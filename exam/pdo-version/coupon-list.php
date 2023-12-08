@@ -1,20 +1,13 @@
 <?php
 require_once("pdo-connect.php");
 
-// $sqlTotal = "SELECT * FROM coupon WHERE valid=1";
-// $resultTotal=$conn->query($sqlTotal);
-// $totalUser=$resultTotal->num_rows;
-
 $stmtTotal=$conn->prepare('SELECT * FROM coupon WHERE valid=1');
 $stmtTotal->execute();
 $totalCouponCount=$stmtTotal->rowCount();
 
-// $sql = "SELECT * FROM coupon WHERE valid=1 ORDER BY id ASC";
 $stmt=$conn->prepare('SELECT * FROM coupon WHERE valid=1');
 $stmt->execute();
 $rows=$stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// $result = $conn->query($sql);
 
 ?>
 <!doctype html>
